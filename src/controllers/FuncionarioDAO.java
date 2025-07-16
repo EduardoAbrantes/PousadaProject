@@ -15,11 +15,12 @@ public class FuncionarioDAO {
     }
 
     public void inserir(Funcionario funcionario) {
-        String sql = "INSERT INTO funcionarios (nome, cargo, jornada) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO funcionarios (nome, cargo, login, senha) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, funcionario.getNome());
             stmt.setString(2, funcionario.getCargo());
-            stmt.setInt(3, funcionario.getJornada());
+            stmt.setString(3, funcionario.getLogin());
+            stmt.setString(4, funcionario.getSenha());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -36,7 +37,8 @@ public class FuncionarioDAO {
                     rs.getInt("id"),
                     rs.getString("nome"),
                     rs.getString("cargo"),
-                    rs.getInt("jornada")
+                    rs.getString("login"),
+                    rs.getString("senha")
                 );
                 lista.add(f);
             }
@@ -56,4 +58,5 @@ public class FuncionarioDAO {
         }
     }
 }
+
 

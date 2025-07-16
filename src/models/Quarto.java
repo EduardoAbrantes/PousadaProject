@@ -2,55 +2,40 @@ package models;
 
 public class Quarto {
     private int id;
-    private String tipo;      // Ex: simples, duplo, suíte
-    private boolean disponivel;
-    private double precoDiaria;
+    private int numero;
+    private String tipo;
+    private String status;
+    private double preco;
 
-    public Quarto(int id, String tipo, boolean disponivel, double precoDiaria) {
+    public Quarto(int id, int numero, String tipo, String status, double preco) {
         this.id = id;
+        this.numero = numero;
         this.tipo = tipo;
-        this.disponivel = disponivel;
-        this.precoDiaria = precoDiaria;
+        this.status = status;
+        this.preco = preco;
     }
 
-    public int getId() {
-        return id;
+    // Construtor sem status (assume "disponível")
+    public Quarto(int id, int numero, String tipo, double preco) {
+        this(id, numero, tipo, "disponível", preco);
     }
 
-    public String getTipo() {
-        return tipo;
-    }
+    // Getters e Setters
+    public int getId() { return id; }
+    public int getNumero() { return numero; }
+    public String getTipo() { return tipo; }
+    public String getStatus() { return status; }
+    public double getPreco() { return preco; }
 
-    public boolean isDisponivel() {
-        return disponivel;
-    }
-
-    public double getPrecoDiaria() {
-        return precoDiaria;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setDisponivel(boolean disponivel) {
-        this.disponivel = disponivel;
-    }
-
-    public void setPrecoDiaria(double precoDiaria) {
-        this.precoDiaria = precoDiaria;
-    }
+    public void setId(int id) { this.id = id; }
+    public void setNumero(int numero) { this.numero = numero; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
+    public void setStatus(String status) { this.status = status; }
+    public void setPreco(double preco) { this.preco = preco; }
 
     @Override
     public String toString() {
-        return "Quarto [id=" + id +
-                ", tipo=" + tipo +
-                ", disponível=" + (disponivel ? "Sim" : "Não") +
-                ", preço por diária=R$" + precoDiaria + "]";
+        return "Quarto [id=" + id + ", número=" + numero + ", tipo=" + tipo + ", status=" + status + ", preço=" + preco + "]";
     }
 }
 

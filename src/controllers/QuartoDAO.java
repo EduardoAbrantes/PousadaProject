@@ -1,7 +1,7 @@
 package controllers;
 
-import models.Quarto;
 import data.ConnectionFactory;
+import models.Quarto;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,11 +15,12 @@ public class QuartoDAO {
     }
 
     public void inserir(Quarto quarto) {
-        String sql = "INSERT INTO quartos (tipo, disponivel, preco_diaria) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO quartos (numero, tipo, status, preco) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, quarto.getTipo());
-            stmt.setBoolean(2, quarto.isDisponivel());
-            stmt.setDouble(3, quarto.getPrecoDiaria());
+            stmt.setInt(1, quarto.getNumero());
+            stmt.setString(2, quarto.getTipo());
+            stmt.setString(3, "disponível"); // Sempre inicia como disponível
+            stmt.setDouble(4, quarto.getPreco());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,9 +35,10 @@ public class QuartoDAO {
             while (rs.next()) {
                 Quarto q = new Quarto(
                     rs.getInt("id"),
+                    rs.getInt("numero"),
                     rs.getString("tipo"),
-                    rs.getBoolean("disponivel"),
-                    rs.getDouble("preco_diaria")
+                    rs.getString("status"),
+                    rs.getDouble("preco")
                 );
                 lista.add(q);
             }
@@ -56,4 +58,5 @@ public class QuartoDAO {
         }
     }
 }
+
 

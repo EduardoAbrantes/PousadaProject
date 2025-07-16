@@ -4,14 +4,18 @@ public class Funcionario {
     private int id;
     private String nome;
     private String cargo;
-    private int jornada;
+    private String login;
+    private String senha;
 
-    public Funcionario(int id, String nome, String cargo, int jornada) {
+    public Funcionario(int id, String nome, String cargo, String login, String senha) {
         this.id = id;
         this.nome = nome;
         this.cargo = cargo;
-        this.jornada = jornada;
+        this.login = login;
+        this.senha = senha;
     }
+
+    // Getters e Setters
 
     public int getId() {
         return id;
@@ -37,21 +41,25 @@ public class Funcionario {
         this.cargo = cargo;
     }
 
-    public int getJornada() {
-        return jornada;
+    public String getLogin() {
+        return login;
     }
 
-    public void setJornada(int jornada) {
-        this.jornada = jornada;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @Override
     public String toString() {
-        return "Funcionario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", cargo='" + cargo + '\'' +
-                ", jornada=" + jornada +
-                '}';
+        return "Funcionario{id=" + id + ", nome='" + nome + "', cargo='" + cargo + "', login='" + login + "'}";
     }
 }
+
