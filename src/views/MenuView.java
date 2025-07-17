@@ -115,7 +115,6 @@ public class MenuView {
                 System.out.print("ID do hóspede: ");
                 int idHospede = Integer.parseInt(sc.nextLine());
                 hospedeDAO.deletar(idHospede);
-                System.out.println("Hóspede deletado.");
                 break;
 
             case 2:
