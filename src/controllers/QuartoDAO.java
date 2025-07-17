@@ -57,6 +57,20 @@ public class QuartoDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean existePorNumero(int numero) {
+    String sql = "SELECT COUNT(*) FROM quartos WHERE numero = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, numero);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 }
 
 

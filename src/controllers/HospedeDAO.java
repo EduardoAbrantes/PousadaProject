@@ -60,4 +60,18 @@ public class HospedeDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean existePorNome(String nome) {
+    String sql = "SELECT COUNT(*) FROM hospedes WHERE nome = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setString(1, nome);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 }

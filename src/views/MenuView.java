@@ -3,11 +3,14 @@ package views;
 import controllers.HospedeDAO;
 import controllers.FuncionarioDAO;
 import controllers.QuartoDAO;
+import controllers.ReservaDAO;
 
 import models.Hospede;
 import models.Funcionario;
 import models.Quarto;
+import models.Reserva;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MenuView {
@@ -15,6 +18,7 @@ public class MenuView {
     private HospedeDAO hospedeDAO = new HospedeDAO();
     private FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
     private QuartoDAO quartoDAO = new QuartoDAO();
+    private ReservaDAO reservaDAO = new ReservaDAO();
 
     public void exibirMenu() {
         int opcao;
@@ -28,20 +32,11 @@ public class MenuView {
             opcao = Integer.parseInt(sc.nextLine());
 
             switch (opcao) {
-                case 1:
-                    menuCriacao();
-                    break;
-                case 2:
-                    menuDelecao();
-                    break;
-                case 3:
-                    menuListagem();
-                    break;
-                case 0:
-                    System.out.println("Encerrando o sistema...");
-                    break;
-                default:
-                    System.out.println("Opção inválida!");
+                case 1 -> menuCriacao();
+                case 2 -> menuDelecao();
+                case 3 -> menuListagem();
+                case 0 -> System.out.println("Encerrando o sistema...");
+                default -> System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
     }
@@ -51,11 +46,12 @@ public class MenuView {
         System.out.println("1 - Hóspede");
         System.out.println("2 - Funcionário");
         System.out.println("3 - Quarto");
+        System.out.println("4 - Reserva");
         System.out.print("Opção: ");
         int opcao = Integer.parseInt(sc.nextLine());
 
         switch (opcao) {
-            case 1:
+            case 1 -> {
                 System.out.print("Nome: ");
                 String nome = sc.nextLine();
                 System.out.print("CPF: ");
@@ -64,13 +60,11 @@ public class MenuView {
                 String telefone = sc.nextLine();
                 System.out.print("Email: ");
                 String email = sc.nextLine();
-
                 Hospede h = new Hospede(0, nome, cpf, telefone, email);
                 hospedeDAO.inserir(h);
                 System.out.println("Hóspede cadastrado!");
-                break;
-
-            case 2:
+            }
+            case 2 -> {
                 System.out.print("Nome: ");
                 String nomeFunc = sc.nextLine();
                 System.out.print("Cargo: ");
@@ -79,13 +73,11 @@ public class MenuView {
                 String login = sc.nextLine();
                 System.out.print("Senha: ");
                 String senha = sc.nextLine();
-
                 Funcionario f = new Funcionario(0, nomeFunc, cargo, login, senha);
                 funcionarioDAO.inserir(f);
                 System.out.println("Funcionário cadastrado!");
-                break;
-
-            case 3:
+            }
+            case 3 -> {
                 System.out.print("Número do quarto: ");
                 int numero = Integer.parseInt(sc.nextLine());
                 System.out.print("Tipo: ");
@@ -95,10 +87,20 @@ public class MenuView {
                 Quarto q = new Quarto(0, numero, tipo, preco);
                 quartoDAO.inserir(q);
                 System.out.println("Quarto cadastrado!");
-                break;
-
-            default:
-                System.out.println("Opção inválida!");
+            }
+            case 4 -> {
+                System.out.print("Nome do hóspede: ");
+                String NomeHospede = sc.nextLine();
+                System.out.print("Número do quarto: ");
+                int numeroQuarto = Integer.parseInt(sc.nextLine());
+                System.out.print("Data de entrada (YYYY-MM-DD): ");
+                LocalDate entrada = LocalDate.parse(sc.nextLine());
+                System.out.print("Data de saída (YYYY-MM-DD): ");
+                LocalDate saida = LocalDate.parse(sc.nextLine());
+                Reserva r = new Reserva(NomeHospede, numeroQuarto, entrada, saida);
+                reservaDAO.inserir(r);
+            }
+            default -> System.out.println("Opção inválida!");
         }
     }
 
@@ -107,32 +109,34 @@ public class MenuView {
         System.out.println("1 - Hóspede");
         System.out.println("2 - Funcionário");
         System.out.println("3 - Quarto");
+        System.out.println("4 - Finalizar Reserva");
         System.out.print("Opção: ");
         int opcao = Integer.parseInt(sc.nextLine());
 
         switch (opcao) {
-            case 1:
+            case 1 -> {
                 System.out.print("ID do hóspede: ");
                 int idHospede = Integer.parseInt(sc.nextLine());
                 hospedeDAO.deletar(idHospede);
-                break;
-
-            case 2:
+            }
+            case 2 -> {
                 System.out.print("ID do funcionário: ");
                 int idFunc = Integer.parseInt(sc.nextLine());
                 funcionarioDAO.deletar(idFunc);
                 System.out.println("Funcionário deletado.");
-                break;
-
-            case 3:
+            }
+            case 3 -> {
                 System.out.print("ID do quarto: ");
                 int idQuarto = Integer.parseInt(sc.nextLine());
                 quartoDAO.deletar(idQuarto);
                 System.out.println("Quarto deletado.");
-                break;
-
-            default:
-                System.out.println("Opção inválida!");
+            }
+            case 4 -> {
+                System.out.print("ID da reserva a finalizar: ");
+                int idReserva = Integer.parseInt(sc.nextLine());
+                reservaDAO.finalizarReserva(idReserva);
+            }
+            default -> System.out.println("Opção inválida.");
         }
     }
 
@@ -141,29 +145,31 @@ public class MenuView {
         System.out.println("1 - Hóspedes");
         System.out.println("2 - Funcionários");
         System.out.println("3 - Quartos");
+        System.out.println("4 - Reservas");
         System.out.print("Opção: ");
         int opcao = Integer.parseInt(sc.nextLine());
 
         switch (opcao) {
-            case 1:
+            case 1 -> {
                 System.out.println("\n--- Lista de Hóspedes ---");
                 hospedeDAO.listar().forEach(System.out::println);
-                break;
-
-            case 2:
+            }
+            case 2 -> {
                 System.out.println("\n--- Lista de Funcionários ---");
                 funcionarioDAO.listar().forEach(System.out::println);
-                break;
-
-            case 3:
+            }
+            case 3 -> {
                 System.out.println("\n--- Lista de Quartos ---");
                 quartoDAO.listar().forEach(System.out::println);
-                break;
-
-            default:
-                System.out.println("Opção inválida!");
+            }
+            case 4 -> {
+                System.out.println("\n--- Lista de Reservas ---");
+                reservaDAO.listar().forEach(System.out::println);
+            }
+            default -> System.out.println("Opção inválida!");
         }
     }
 }
+
 
 
