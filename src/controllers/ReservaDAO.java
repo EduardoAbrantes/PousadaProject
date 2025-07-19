@@ -153,7 +153,7 @@ public class ReservaDAO {
             updateStmt.setInt(1, idQuarto);
             updateStmt.executeUpdate();
 
-            System.out.println("Reserva finalizada e quarto liberado!");
+            System.out.println("Reserva Paga e quarto liberado!");
         } else {
             System.out.println("Reserva não encontrada.");
         }

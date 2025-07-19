@@ -186,21 +186,99 @@ public class MenuView {
             String cpf = sc.nextLine();
             Hospede h = hospedeDAO.buscarPorCPF(cpf);
             if (h != null) {
-                System.out.println(h);
+            System.out.println("Hóspede encontrado:");
+            System.out.println(h);
+
+            System.out.print("Deseja editar as informações? (s/n): ");
+            String resposta = sc.nextLine();
+            if (resposta.equalsIgnoreCase("s")) {
+                System.out.println("Qual informação deseja editar?");
+                System.out.println("1 - Nome");
+                System.out.println("2 - Email");
+                System.out.println("3 - Telefone");
+                System.out.print("Opção (1/2/3): ");
+                String inputOpcao = sc.nextLine();
+
+                int escolha;
+                try {
+                    escolha = Integer.parseInt(inputOpcao);
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada inválida. Digite apenas 1, 2 ou 3.");
+                    return;
+                }
+
+                String campo = "";
+
+                switch (escolha) {
+                    case 1:
+                        campo = "nome";
+                        break;
+                    case 2:
+                        campo = "email";
+                        break;
+                    case 3:
+                        campo = "telefone";
+                        break;
+                    default:
+                        System.out.println("Opção inválida.");
+                        return;
+                }
+
+                System.out.print("Novo valor para " + campo + ": ");
+                String novoValor = sc.nextLine();
+                hospedeDAO.atualizarCampo(h.getId(), campo, novoValor);
+        }
             } else {
                 System.out.println("Hóspede não encontrado.");
             }
             break;
 
         case 2:
-            System.out.print("Digite o número do quarto: ");
+            System.out.print("Número do quarto: ");
             int numero = Integer.parseInt(sc.nextLine());
             Quarto q = quartoDAO.buscarPorNumero(numero);
+
             if (q != null) {
+                System.out.println("Quarto encontrado:");
                 System.out.println(q);
+
+                System.out.print("Deseja editar esse quarto? (s/n): ");
+                String resp = sc.nextLine();
+                if (resp.equalsIgnoreCase("s")) {
+                    System.out.println("O que deseja editar?");
+                    System.out.println("1 - Tipo");
+                    System.out.println("2 - Preço");
+                    System.out.print("Opção (1/2): ");
+                    String opcaoStr = sc.nextLine();
+                    
+                    try {
+                        opcao = Integer.parseInt(opcaoStr);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Entrada inválida.");
+                        return;
+                    }
+
+                    switch (opcao) {
+                        case 1 -> {
+                            System.out.print("Novo tipo: ");
+                            String novoTipo = sc.nextLine();
+                            quartoDAO.atualizarCampo(q.getId(), "tipo", novoTipo);
+                        }
+                        case 2 -> {
+                            System.out.print("Novo preço: ");
+                            try {
+                                double novoPreco = Double.parseDouble(sc.nextLine());
+                                quartoDAO.atualizarCampo(q.getId(), "preco", novoPreco);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Preço inválido.");
+                            }
+                        }
+                        default -> System.out.println("Opção inválida.");
+                    }
+                }
             } else {
                 System.out.println("Quarto não encontrado.");
-            }
+        }
             break;
 
         case 3:

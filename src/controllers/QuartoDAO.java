@@ -91,6 +91,27 @@ public class QuartoDAO {
     return null;
 }
 
+public void atualizarCampo(int id, String campo, Object valor) {
+    String sql = "UPDATE quartos SET " + campo + " = ? WHERE id = ?";
+
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        if (valor instanceof String) {
+            stmt.setString(1, (String) valor);
+        } else if (valor instanceof Double) {
+            stmt.setDouble(1, (Double) valor);
+        } else {
+            System.out.println("Tipo de valor inválido.");
+            return;
+        }
+
+        stmt.setInt(2, id);
+        stmt.executeUpdate();
+        System.out.println("Campo atualizado com sucesso.");
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
 }
 
 

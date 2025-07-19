@@ -93,4 +93,15 @@ public class HospedeDAO {
     }
     return null;
 }
+    public void atualizarCampo(int id, String campo, String novoValor) {
+        String sql = "UPDATE hospedes SET " + campo + " = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, novoValor);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            System.out.println("Informação atualizada com sucesso!");
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar: " + e.getMessage());
+        }
+    }
 }
