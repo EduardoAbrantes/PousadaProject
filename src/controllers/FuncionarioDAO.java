@@ -57,6 +57,27 @@ public class FuncionarioDAO {
             e.printStackTrace();
         }
     }
+    
+public Funcionario buscarPorLogin(String login) {
+    String sql = "SELECT * FROM funcionarios WHERE login = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setString(1, login);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Funcionario(
+                rs.getInt("id"),
+                rs.getString("nome"),
+                rs.getString("cargo"),
+                rs.getString("login"),
+                rs.getString("senha")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
 }
 
 

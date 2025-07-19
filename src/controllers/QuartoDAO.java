@@ -70,7 +70,27 @@ public class QuartoDAO {
         e.printStackTrace();
     }
     return false;
+    }
+    public Quarto buscarPorNumero(int numero) {
+    String sql = "SELECT * FROM quartos WHERE numero = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, numero);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Quarto(
+                rs.getInt("id"),
+                rs.getInt("numero"),
+                rs.getString("tipo"),
+                rs.getString("status"),
+                rs.getDouble("preco")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
 }
+
 }
 
 

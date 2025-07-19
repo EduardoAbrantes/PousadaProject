@@ -27,6 +27,7 @@ public class MenuView {
             System.out.println("1 - Criar");
             System.out.println("2 - Deletar");
             System.out.println("3 - Listar");
+            System.out.println("4 - Buscar");
             System.out.println("0 - Sair");
             System.out.print("Opção: ");
             opcao = Integer.parseInt(sc.nextLine());
@@ -35,6 +36,7 @@ public class MenuView {
                 case 1 -> menuCriacao();
                 case 2 -> menuDelecao();
                 case 3 -> menuListagem();
+                case 4 -> menuBusca();
                 case 0 -> System.out.println("Encerrando o sistema...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -169,6 +171,53 @@ public class MenuView {
             default -> System.out.println("Opção inválida!");
         }
     }
+
+    private void menuBusca() {
+    System.out.println("\n--- Menu de Busca ---");
+    System.out.println("1 - Buscar hóspede por CPF");
+    System.out.println("2 - Buscar quarto por número");
+    System.out.println("3 - Buscar funcionário por login");
+    System.out.print("Opção: ");
+    int opcao = Integer.parseInt(sc.nextLine());
+
+    switch (opcao) {
+        case 1:
+            System.out.print("Digite o CPF do hóspede: ");
+            String cpf = sc.nextLine();
+            Hospede h = hospedeDAO.buscarPorCPF(cpf);
+            if (h != null) {
+                System.out.println(h);
+            } else {
+                System.out.println("Hóspede não encontrado.");
+            }
+            break;
+
+        case 2:
+            System.out.print("Digite o número do quarto: ");
+            int numero = Integer.parseInt(sc.nextLine());
+            Quarto q = quartoDAO.buscarPorNumero(numero);
+            if (q != null) {
+                System.out.println(q);
+            } else {
+                System.out.println("Quarto não encontrado.");
+            }
+            break;
+
+        case 3:
+            System.out.print("Digite o login do funcionário: ");
+            String login = sc.nextLine();
+            Funcionario f = funcionarioDAO.buscarPorLogin(login);
+            if (f != null) {
+                System.out.println(f);
+            } else {
+                System.out.println("Funcionário não encontrado.");
+            }
+            break;
+
+        default:
+            System.out.println("Opção inválida!");
+    }
+}
 }
 
 

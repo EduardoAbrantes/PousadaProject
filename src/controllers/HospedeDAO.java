@@ -73,5 +73,24 @@ public class HospedeDAO {
         e.printStackTrace();
     }
     return false;
+    }
+    public Hospede buscarPorCPF(String cpf) {
+    String sql = "SELECT * FROM hospedes WHERE cpf = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setString(1, cpf);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Hospede(
+                rs.getInt("id"),
+                rs.getString("nome"),
+                rs.getString("cpf"),
+                rs.getString("telefone"),
+                rs.getString("email")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
 }
 }

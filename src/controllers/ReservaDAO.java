@@ -1,6 +1,7 @@
 package controllers;
 
 import data.ConnectionFactory;
+import models.Funcionario;
 import models.Reserva;
 
 import java.sql.*;
@@ -201,6 +202,27 @@ private boolean quartoEstaDisponivel(int idQuarto) {
     }
     return false; // assume indisponível em caso de erro
 }
+
+    public Funcionario buscarPorLogin(String login) {
+        String sql = "SELECT * FROM funcionarios WHERE login = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, login);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Funcionario(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("cargo"),
+                    rs.getString("login"),
+                    rs.getString("senha")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
 
